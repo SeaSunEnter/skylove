@@ -1,0 +1,236 @@
+{% load static %}
+<nav class="sidebar sidebar-offcanvas bg-inverse-info" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <div class="nav-link">
+        <div class="user-wrapper">
+          <div class="profile-image">
+            {% if user.thumb.url != null %}
+              <img src="{{ user.thumb.url }}" class='rounded img-fluid' alt="">
+            {% else %}
+              <img src="{% static 'images/No_Image.png' %}" class='rounded img-fluid' alt="">
+            {% endif %}
+
+          </div>
+          <div class="text-wrapper">
+            <p class="profile-name">{{ user.username | upper }} </p>
+            <div>
+              <small class="designation text-dark">
+                {% if user.is_superuser > 0 %}
+                  Administrator
+                {% else %}
+                  Admin
+                {% endif %}
+              </small>
+              <span class="status-indicator online"></span>
+            </div>
+          </div>
+        </div>
+        <!---
+        <a href="% url 'action:treatment_overview' %}" class="btn btn-primary btn-block">
+        --->
+        <a href="{% url 'manager:customer_overview' %}" class="btn btn-primary btn-block">
+          <i class="mdi mdi-phone"></i>
+          &emsp;Mobile / Name
+        </a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'manager:dashboard' %}">
+        <i class="fa fa-desktop"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'manager:customer_all' %}">
+        <i class="fa fa-users text-dark"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Khách Hàng</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'apptevent:calendar' %}">
+        <i class="fa fa-calendar"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Lịch Hẹn</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'action:consultant_overview' %}">
+        <i class="fa fa-address-book-o"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Tư Vấn</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'action:treatment_overview' %}">
+        <i class="fa fa-newspaper-o"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Liệu Trình</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#ui-accountant" aria-expanded="false" aria-controls="ui-accountant">
+        <i class="fa fa-money"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Tài chính</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <hr>
+      <div class="collapse" id="ui-accountant">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'action:invoice_overview' %}">
+              <i class="fa fa-usd"></i>
+              <span class="menu-title">&emsp;&emsp;&emsp;Thanh Toán</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'action:invoice_debt' %}">
+              <i class="mdi mdi-book-open-variant"></i>&emsp;&emsp;&emsp;Công Nợ
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#ui-asset" aria-expanded="false" aria-controls="ui-asset">
+        <i class="fa fa-archive"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Vật Tư</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <hr>
+      <div class="collapse" id="ui-asset">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inventory:asset_all' %}">
+              <i class="mdi mdi-store"></i>&emsp;&emsp;&emsp;Y Dụng Cụ
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inventory:asset_new' %}">
+              <i class="mdi mdi-import"></i>&emsp;&emsp;&emsp;Nhập Thêm
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inventory:ass_cat_all' %}">
+              <i class="mdi mdi-tag"></i>&emsp;&emsp;&emsp;Danh Mục
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inventory:ass_unt_all' %}">
+              <i class="mdi mdi-code-tags"></i>&emsp;&emsp;&emsp;Đơn Vị Tính
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'inventory:supplier_all' %}">
+        <i class="fa fa-user-md"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Nhà Cung Cấp</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#ui-inventory" aria-expanded="false"
+         aria-controls="ui-inventory">
+        <i class="fa fa-industry"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Kho Hàng</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <hr>
+      <div class="collapse" id="ui-inventory">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inventory:inv_all' %}">
+              <i class="mdi mdi-store"></i>&emsp;&emsp;&emsp;Kiểm Kho
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inventory:inv_new' %}">
+              <i class="mdi mdi-import"></i>&emsp;&emsp;&emsp;Nhập Hàng
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inventory:out_all' %}">
+              <i class="mdi mdi-export"></i>&emsp;&emsp;&emsp;Hàng Xuất
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <!---
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+        <i class="fa fa-folder "></i>
+        <span class="menu-title">&emsp;Department</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <a class="nav-link" href=""><i class="fa fa-plus"></i>&emsp;New Department</a>
+      <hr>
+      <div class="collapse" id="ui-basic">
+        <ul class="nav flex-column sub-menu">
+          % for dept in departments %}
+            <li class="nav-item">
+              <a class="nav-link" href="">{ dept.name }}</a>
+            </li>
+          % endfor %}
+        </ul>
+      </div>
+    </li>
+    --->
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'manager:employee_all' %}" aria-expanded="false" aria-controls="ui-basic">
+        <i class="fa fa-user text-dark"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Nhân Sự</span>
+      </a>
+    </li>
+    <!---
+    <li class="nav-item">
+      <a class="nav-link" style="pointer-events:none;opacity:0.4;">
+        <i class="fa fa-database"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Chấm Công</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" style="pointer-events:none;opacity:0.4;">
+        <i class="fa fa-usd"></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Tính Lương</span>
+      </a>
+    </li>
+    --->
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" href="#ui-config" aria-expanded="false" aria-controls="ui-config">
+        <i class="fa fa-gears "></i>
+        <span class="menu-title">&emsp;&emsp;&emsp;Cấu hình</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <hr>
+      <div class="collapse" id="ui-config">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'manager:dept_all' %}">
+              <i class="fa fa-tags"></i>&emsp;&emsp;&emsp;Danh mục
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              <i class="fa fa-gear"></i>&emsp;&emsp;&emsp;Thiết lập chung
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              <i class="fa fa-info-circle"></i>&emsp;&emsp;&emsp;Hệ thống
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    {% comment %} <li class="nav-item">
+
+          <li class="nav-item">
+            <a class="nav-link" href="pages/icons/font-awesome.html">
+              <i class="fa  fa-gears"></i>
+              <span class="menu-title">&emsp;Settings</span>
+            </a>
+          </li> {% endcomment %}
+  </ul>
+</nav>

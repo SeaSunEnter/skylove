@@ -1,0 +1,136 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} All Payment's Customers | SkyLove CMS {% endblock title %}
+<!--  MAIN BODY START HERE -->
+{% block content %}
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+          <div class="row">
+        <div class="col-lg-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title text-primary">
+                Thanh Toán [
+                  {% if inv_total and inv_lookup %}{{ inv_lookup }} / {{ inv_total }}{% endif %} ]
+                <form method="GET" action="{% url 'action:invoice_overview' %}">
+                  {{ form.as_p }}
+                  <label for="mobile">Số điện thoại:</label>
+                  <input type="text" id="mobile" name="mobile" value="" maxlength="12"
+                         style="color: lightcyan; background: #015581">
+                  <label for="fname">& Tên:</label>
+                  <input type="text" id="fname" name="fname" value="" maxlength="20"
+                         style="color: yellow; background: #015581">
+                  <input type="submit" VALUE="Tìm" class="btn btn-primary"/>
+                </form>
+                <h4 class="card-title">
+                <br>
+                <a href="{% url 'action:invoice_new' %}"
+                   class="btn btn-lg btn-primary mb-3 float-left">
+                  <i class="fa fa-plus"></i>&emsp;Tạo Sổ Thanh Toán
+                </a>
+              </h4>
+
+                <br>
+              </h4>
+              <!---  Table contain customer list --->
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>
+                      Photo
+                    </th>
+                    <th>
+                      Họ tên
+                    </th>
+                    <th>
+                      Số điện thoại
+                    </th>
+                    <th>
+                      Thời gian
+                    </th>
+                    <th>
+                      Tài chính
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for invoice in invoices %}
+                    <tr>
+                      <td class="font-weight-medium">
+                        <a href="{% url 'action:invoice_view' pk=invoice.pk %}">
+                          {% if invoice.customer.thumb.url != null %}
+                            <img src="{{ invoice.customer.thumb.url }}" class='rounded img-fluid' alt="">
+                          {% else %}
+                            <img src="{% static 'images/No_Image.png' %}" class='rounded img-fluid' alt="">
+                          {% endif %}
+                        </a>
+                      </td>
+                      <td>
+                        <a href="{% url 'manager:customer_view' pk=invoice.customer.id %}">
+                        {{ invoice.customer.fullname }}
+                        </a>
+                      </td>
+                      <td>
+                        {{ invoice.customer.mobile }}
+                      </td>
+                      <td>
+                        {{ invoice.time.date }}
+                      </td>
+                      <td>
+                          <a href="{% url 'action:invoice_view' pk=invoice.pk %}">Chi tiết</a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+
+                {% if is_paginated %}
+                  <nav aria-label="Page navigation example" class='mt-4'>
+                    <ul class="pagination">
+                      {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        </li>
+                      {% else %}
+
+                        <li class="page-item disabled"><span class='page-link '>Previous</span></li>
+                      {% endif %}
+                      <li class="disabled"><span
+                          class='page-link'> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
+                      </li>
+                      {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link"
+                                                 href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                      {% else %}
+                        <li class="page-item disabled"><span class='page-link '>Next</span></li>
+                      {% endif %}
+                    </ul>
+                  </nav>
+                {% endif %}
+
+              </div>
+              <h4 class="card-title">
+                <br>
+                <a href="{% url 'action:invoice_new' %}"
+                   class="btn btn-lg btn-primary mb-3 float-right">
+                  <i class="fa fa-plus"></i>&emsp;Tạo Sổ Thanh Toán
+                </a>
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block noty %}
+    <script>
+      {% if messages %}
+        {% for message in messages  %}
+          toastr.success('{{message}}')
+        {% endfor %}
+      {% endif %}
+    </script>
+  {% endblock noty %}
+{% endblock content %}
+</div>

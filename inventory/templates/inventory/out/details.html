@@ -1,0 +1,89 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} Delivery's Info | SkyLove CMS {% endblock title %}
+{% block content %}
+
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-lg-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="text-center text-primary"><i class="fa fa-address-book-o">&emsp;CHI TIẾT VẬT TƯ Y TẾ</i></h4>
+            <hr>
+            <div class="row">
+              <div class="col-lg-2 col-md-2 d-flex align-items-stretch grid-margin">
+
+                <div class="card border-top border-bottom border-success">
+                  <div class="card-body">
+                    {% if asset.thumb.url != null %}
+                      <img src="{{ asset.thumb.url }}" alt="" class="img-fluid" width='200px' height='200px'>
+                    {% else %}
+                      <img src="{% static 'images/No_Image.png' %}" alt="" class="img-fluid" width='200px'
+                           height='200px'>
+                    {% endif %}
+                    <p class="lead mt-2 text-center">
+                      {{ asset.id | capfirst }} <br>
+                      <small class='text-center text-secondary'>( Photo-ID )</small>
+                    </p>
+
+                  </div>
+                </div>
+
+
+              </div>
+              <!-- Second column -->
+              <div class="col-lg-6 col-md-6">
+                <div class="table-responsive border-top border-success table-striped">
+                  <p class="lead text-center mt-2">Asset Info.</p>
+                  <table class="table">
+                    <tr>
+                      <th style="width:50%">Y dụng cụ:</th>
+                      <td>{{ asset.name }}</td>
+                    </tr>
+                    <tr>
+                      <th>Phân loại:</th>
+                      <td>{{ asset.category }}</td>
+                    </tr>
+                    <tr>
+                      <th>Nhà cung cấp:</th>
+                      <td>{{ asset.supplier.fullname }}</td>
+                    </tr>
+                    <tr>
+                      <th>Giá / Đv-Nhập:</th>
+                      <td>{{ asset.purchase }} / {{ asset.unitIN }}</td>
+                    </tr>
+                    <tr>
+                      <th>Số lượng {{ asset.unitOUT }} có trong 1 {{ asset.unitIN }}:</th>
+                      <td>{{ asset.unitINOUT }}</td>
+                    </tr>
+                    <tr>
+                      <th>Giá / Đv-Bán:</th>
+                      <td>{{ asset.price }} / {{ asset.unitOUT }}</td>
+                    </tr>
+                  </table>
+                  <div class="text-center mt-3">
+                    <a href=" {% url 'inventory:asset_update' pk=asset.id %}"
+                       class="btn btn-lg btn-primary">
+                      <i class="mdi mdi-download"></i>Cập nhật
+                    </a>
+                    <a class=""></a>
+                    <a href="javascript:history.back();"
+                       class="btn btn-lg btn-primary">
+                      <i class="mdi mdi-exit-to-app"></i>Trở lại
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-- Third column-->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+</div>

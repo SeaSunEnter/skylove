@@ -1,0 +1,41 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} New Department | SkyLove CMS {% endblock title %}
+
+{% block content %}
+
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-4 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="text-center text-primary"><i class="fa fa-plus">&emsp; Thêm Bộ phận </i></h4>
+              <hr>
+              <form class="form-group" method="POST">
+                {% csrf_token %}
+                <!---
+                <small class="mb-5">** All Fields are required</small>
+                --->
+                {{ form.as_p }}
+                <div class="text-center mt-3">
+                  <button class="btn btn-outline-success">
+                    <i class="mdi mdi-check"></i>
+                    Xác nhận
+                  </button>
+                  <a href="javascript:history.back()"
+                     class="btn btn-outline-danger">
+                    <i class="mdi mdi-cancel"></i>Hủy bỏ
+                  </a>
+
+                </div>
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+</div>

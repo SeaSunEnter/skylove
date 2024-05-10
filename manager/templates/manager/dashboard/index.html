@@ -1,0 +1,398 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} Dashboard | SkyLove CMS {% endblock title %}
+<!--  MAIN BODY START HERE -->
+{% block content %}
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+        <div class="card card-statistics">
+          <div class="card-body">
+            <div class="clearfix">
+              <div class="float-left">
+                <a href="{% url 'manager:customer_new' %}">
+                  <img src="{% static 'images/customer_new.png' %}" width="52" alt="">
+                </a>
+              </div>
+              <div class="float-left">
+                <img src="{% static 'images/blank64x64.png' %}" width="52" alt="">
+              </div>
+              <div class="float-left">
+                <a href="{% url 'manager:customer_overview' %}">
+                  <img src="{% static 'images/customer_list.png' %}" width="52" alt="">
+                </a>
+              </div>
+              <div class="float-left">
+                <img src="{% static 'images/blank64x64.png' %}" width="52" alt="">
+              </div>
+              <div class="float-left">
+                <a href="{% url 'action:invoice_overview' %}">
+                  <img src="{% static 'images/invoice.png' %}" width="52" alt="">
+                </a>
+              </div>
+              <div class="float-right">
+                <p class="mb-0 text-right">Khách Hàng</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0">{{ customer_total }}</h3>
+                </div>
+              </div>
+            </div>
+            <p class="text-primary mt-3 mb-0">
+              <a href="{% url 'manager:customer_new' %}">
+                <i class="mdi mdi-account-plus mr-1" aria-hidden="true"></i>
+                New
+              </a>
+              <img src="{% static 'images/blank64x8.png' %}" width="52" alt="">
+              <a href="{% url 'manager:customer_overview' %}">
+                <i class="mdi mdi-account-multiple mr-1" aria-hidden="true"></i>
+                List
+              </a>
+              <img src="{% static 'images/blank64x8.png' %}" width="52" alt="">
+              <a href="{% url 'manager:customer_overview' %}">
+                <i class="mdi mdi-bitcoin mr-1" aria-hidden="true"></i>
+                Bill
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+        <div class="card card-statistics">
+          <div class="card-body">
+            <div class="clearfix">
+              <div class="float-left">
+                <a href="{% url 'apptevent:event_overview' %}">
+                  <img src="{% static 'images/appointment_list.png' %}" width="52" alt="">
+                </a>
+              </div>
+              <div class="float-left">
+                <img src="{% static 'images/blank64x64.png' %}" width="52" alt="">
+              </div>
+              <div class="float-left">
+                <a href="{% url 'apptevent:calendar' %}">
+                  <img src="{% static 'images/appointment_cal.png' %}" width="52" alt="">
+                </a>
+              </div>
+              <div class="float-right">
+                <p class="mb-0 text-right">Cuộc Hẹn</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0">{{ appointment_total }}</h3>
+                </div>
+              </div>
+            </div>
+            <p class="text-primary mt-3 mb-0">
+              <a href="{% url 'apptevent:event_overview' %}">
+                <i class="mdi mdi-clock-alert mr-1" aria-hidden="true"></i>
+                Hẹn
+              </a>
+              <img src="{% static 'images/blank64x8.png' %}" width="52" alt="">
+              <a href="{% url 'apptevent:calendar' %}">
+                <i class="mdi mdi-calendar mr-1" aria-hidden="true"></i>
+                Lịch
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+        <div class="card card-statistics">
+          <div class="card-body">
+            <div class="clearfix">
+              <div class="float-left">
+                <i class="mdi mdi-account-multiple text-info icon-lg"></i>
+              </div>
+              <div class="float-right">
+                <p class="mb-0 text-right">Nhân Sự</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0">{{ employee_total }}</h3>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted mt-3 mb-0">
+              <i class="mdi mdi-reload mr-1" aria-hidden="true"></i> HRMS
+            </p>
+            <p>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <!---<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">--->
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card card-statistics">
+          <div class="card-body">
+            <div class="clearfix">
+              <div class="float-left">
+                <a href="{% url 'action:consultant_new' %}">
+                  <img src="{% static 'images/consultant_node.png' %}" width="64" alt="">
+                </a>
+              </div>
+              <div class="float-left">
+                <img src="{% static 'images/blank64x64.png' %}" width="64" alt="">
+              </div>
+              <div class="float-left">
+                <a href="{% url 'action:treatment_new' %}">
+                  <img src="{% static 'images/treatment_tag.png' %}" width="64" alt="">
+                </a>
+              </div>
+              <div class="float-left">
+                <img src="{% static 'images/blank64x64.png' %}" width="64" alt="">
+              </div>
+              <div class="float-left">
+                <a href="{% url 'inventory:asset_new' %}">
+                  <img src="{% static 'images/asset_list.png' %}" width="64" alt="">
+                </a>
+              </div>
+              <div class="float-left">
+                <img src="{% static 'images/blank64x64.png' %}" width="64" alt="">
+              </div>
+              <div class="float-left">
+                <a href="{% url 'inventory:inv_new' %}">
+                  <img src="{% static 'images/purchase.png' %}" width="64" alt="">
+                </a>
+              </div>
+              <div class="float-left">
+                <img src="{% static 'images/blank64x64.png' %}" width="64" alt="">
+              </div>
+              <div class="float-left">
+                <a href="{% url 'inventory:inv_all' %}">
+                  <img src="{% static 'images/pay_services.png' %}" width="64" alt="">
+                </a>
+              </div>
+              <!---
+              <div class="float-right">
+                <p class="mb-0 text-right">Bộ phận</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0">{ department_total }}</h3>
+                </div>
+              </div>
+              --->
+            </div>
+            <p class="text-info mt-3 mb-0">
+              <a href="{% url 'action:consultant_new' %}">
+                <i class="mdi mdi-bookmark-outline mr-1" aria-hidden="true"></i>
+                Tư vấn
+              </a>
+              <img src="{% static 'images/blank64x8.png' %}" width="60" alt="">
+              <a href="{% url 'action:treatment_new' %}">
+                <i class="mdi mdi-newspaper mr-1" aria-hidden="true"></i>
+                Liệu trình
+              </a>
+              <img src="{% static 'images/blank64x8.png' %}" width="40" alt="">
+              <a href="{% url 'inventory:asset_new' %}">
+                <i class="mdi mdi-medical-bag mr-1" aria-hidden="true"></i>
+                Y dụng cụ
+              </a>
+              <img src="{% static 'images/blank64x8.png' %}" width="48" alt="">
+              <a href="{% url 'inventory:inv_new' %}">
+                <i class="mdi mdi-truck-delivery mr-1" aria-hidden="true"></i>
+                Nhập
+              </a>
+              <img src="{% static 'images/blank64x8.png' %}" width="64" alt="">
+              <a href="{% url 'inventory:out_all' %}">
+                <i class="mdi mdi-ticket-confirmation mr-1" aria-hidden="true"></i>
+                Kho
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <!---<div class="col-lg-12 grid-margin">--->
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="text-center text-primary">KHÁCH HÀNG MỚI ...
+              <a href="{% url 'manager:customer_overview' %}">
+                (Toàn bộ)
+              </a>
+            </h4>
+            <br>
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>
+                    Photo
+                  </th>
+                  <th>
+                    Họ tên
+                  </th>
+                  <th>
+                    Mobile
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for customer in customers %}
+                  <tr>
+                    <td class="font-weight-medium">
+                      <a href="{% url 'manager:customer_view' pk=customer.id %}">
+                        {% if customer.thumb.url != null %}
+                          <img src="{{ customer.thumb.url }}" class='img-fluid rounded-circle' alt="">
+                        {% else %}
+                          <img src="{% static 'images/No_Image.png' %}" class='img-fluid rounded-circle' alt="">
+                        {% endif %}
+                      </a>
+                    </td>
+                    <td>
+                      {{ customer.fullname }}
+                    </td>
+                    <td>
+                      {{ customer.mobile }}
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-3 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="text-center text-primary">CUỘC HẸN HÔM NAY ...
+              <a href="{% url 'apptevent:calendar' %}">
+                (Xem lịch)
+              </a>
+            </h4>
+            <br>
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>
+                    Photo
+                  </th>
+                  <th>
+                    Họ tên
+                  </th>
+                  <th>
+                    Mobile
+                  </th>
+                  <th>
+                    Cuộc hẹn
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for appointment in appointments %}
+                  <tr>
+                    <td class="font-weight-medium">
+                      <a href="{% url 'apptevent:event_edit' event_id=appointment.pk %}">
+                        {% if appointment.customer.thumb.url != null %}
+                          <img src="{{ appointment.customer.thumb.url }}" class='img-fluid rounded-circle' alt="">
+                        {% else %}
+                          <img src="{% static 'images/No_Image.png' %}" class='img-fluid rounded-circle' alt="">
+                        {% endif %}
+                      </a>
+                    </td>
+                    <td>
+                      {{ appointment.customer.fullname }}
+                    </td>
+                    <td>
+                      {{ appointment.customer.mobile }}
+                    </td>
+                    <td>
+                      <a href="{% url 'apptevent:event_edit' event_id=appointment.pk %}">
+                        {{ appointment.name }}
+                        [{{ appointment.appTime.time.hour }} : {{ appointment.appTime.time.minute }}]
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-body">
+            <h4 class="text-center text-dribbble">SINH NHẬT THÁNG {{ today.month }}
+            </h4>
+            <br>
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>
+                    Photo
+                  </th>
+                  <th>
+                    Họ tên
+                  </th>
+                  <th>
+                    Mobile
+                  </th>
+                  <th>
+                    Birthday
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for bd in birthdays %}
+                  {% if bd.table_name == 'Customer' %}
+                    {% for customer in all_customers %}
+                      {% if customer.id == bd.table_id %}
+                        <tr>
+                          <td class="font-weight-medium">
+                            {% if customer.thumb.url != null %}
+                              <img src="{{ customer.thumb.url }}" class='img-fluid rounded-circle' alt="">
+                            {% else %}
+                              <img src="{% static 'images/No_Image.png' %}" class='img-fluid rounded-circle' alt="">
+                            {% endif %}
+                          </td>
+                          <td>
+                            <a href="{% url 'manager:customer_view' bd.table_id %}">
+                              {{ customer.fullname }}
+                            </a>
+                          </td>
+                          <td>
+                            {{ customer.mobile }}
+                          </td>
+                          <td>
+                            <a href="{% url 'manager:customer_view' bd.table_id %}">
+                              {{ customer.dob }}
+                            </a>
+                          </td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}
+                  {% else %}
+                    {% if bd.table_name == 'Employee' %}
+                      {% for employee in employees %}
+                        {% if employee.id == bd.table_id %}
+                          <tr>
+                            <td class="font-weight-medium">
+                            </td>
+                            <td>
+                              <a href="{% url 'manager:employee_view' bd.table_id %}">
+                                {{ employee.fullname }}
+                              </a>
+                            </td>
+                            <td>
+                              {{ employee.mobile }}
+                            </td>
+                            <td>
+                              <a href="{% url 'manager:employee_view' bd.table_id %}">
+                                {{ employee.dob }}
+                              </a>
+                            </td>
+                          </tr>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+</div>

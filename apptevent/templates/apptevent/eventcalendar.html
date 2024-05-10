@@ -1,0 +1,54 @@
+{% extends 'manager/laycal.html' %}
+{% load static %}
+
+{% block title %} Appointments | SkyLove CMS {% endblock title %}
+<!--  MAIN BODY START HERE -->
+{% block content %}
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link"
+               href="{% url 'apptevent:event_overview' %}">Danh sách</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"
+               href="{% url 'apptevent:calendar' %}">Bảng Lịch hẹn</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"
+               href="{% url 'apptevent:event_doctor' %}">Bác sĩ</a>
+          </li>
+          <!---
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li>
+          --->
+        </ul>
+      </div>
+      <div class="content">
+        <div class="clearfix">
+          <a class="btn btn-primary left" href="{% url 'apptevent:calendar' %}?{{ prev_month }}"> << </a>
+          <a class="btn btn-primary left" href="{% url 'apptevent:calendar' %}?{{ next_month }}"> >> </a>
+          <a class="btn btn-info left" href="{% url 'apptevent:event_new' %}">
+            <i class="mdi mdi-clock"></i>
+            &emsp;Thêm cuộc hẹn
+          </a>
+        </div>
+        <div class="container-fluid">
+          {{ calendar }}
+        </div>
+      </div>
+      {% block noty %}
+        <script>
+          {% if messages %}
+            {% for message in messages  %}
+              toastr.success('{{message}}')
+            {% endfor %}
+          {% endif %}
+        </script>
+      {% endblock noty %}
+    </div>
+  </div>
+{% endblock content %}

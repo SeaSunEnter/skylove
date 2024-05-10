@@ -1,0 +1,16 @@
+{% extends 'manager/laycal.html' %}
+{% load static %}
+
+{% block title %}
+Calendar
+{% endblock %}
+
+{% block content %}
+<div class="clearfix">
+	<a class="btn btn-info left" href="{% url 'apptevent:calendar' %}?{{ prev_month }}"> Previous Month </a>
+	<a class="btn btn-info right" href="{% url 'apptevent:calendar' %}?{{ next_month }}"> Next Month </a>
+	<a class="btn btn-info right" href="{% url 'apptevent:event_new' %}"> New Event </a>
+</div>
+
+{{ calendar }}
+{% endblock %}

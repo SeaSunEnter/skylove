@@ -1,0 +1,114 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} Deliver's Info | SkyLove CMS {% endblock title %}
+{% block content %}
+
+  <script type="text/javascript">
+    function view_image(str) {
+      let pic, picsrc;
+      pic = document.getElementById("image_view");
+      pic.src = str;
+      picsrc = document.getElementById("image_source_view");
+      picsrc.href = str;
+    }
+  </script>
+
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-lg-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="text-center text-primary">
+              <i class="fa fa-address-book-o"></i>
+              &emsp;THẺ XUẤT KHO [Số: {{ deliver.id }}]
+            </h4>
+            <hr>
+            <div class="row">
+              <div class="col-lg-2 col-md-2 d-flex align-items-stretch grid-margin">
+                <div class="card border-top border-bottom border-success">
+                  <div class="card-body">
+                    {% if deliver.customer.thumb.url != null %}
+                      <img src="{{ deliver.customer.thumb.url }}" alt="" class="img-fluid" width='200px'
+                           height='200px'>
+                    {% else %}
+                      <img src="{% static 'images/No_Image.png' %}" alt="" class="img-fluid" width='200px'
+                           height='200px'>
+                    {% endif %}
+                    <p class="lead mt-2 text-center">
+                      {{ deliver.customer.humanID | capfirst }} <br>
+                      <small class='text-center text-secondary'>( Photo-ID )</small>
+                    </p>
+
+                  </div>
+                </div>
+
+
+              </div>
+              <!-- Second column -->
+              <div class="col-lg-6 col-md-6">
+                <div class="table-responsive border-top border-success table-striped">
+                  <p class="lead text-center mt-2">Thông tin K/H</p>
+                  <table class="table">
+                    <tr>
+                      <th style="width:50%">Họ tên K/H:</th>
+                      <td>{{ deliver.customer.fullname }}</td>
+                    </tr>
+                    <tr>
+                      <th>Điện thoại:</th>
+                      <td>{{ deliver.customer.mobile }}</td>
+                    </tr>
+                  </table>
+
+                </div>
+                <div class="text-center mt-3">
+                  <a href=" {% url 'manager:customer_update' pk=deliver.customer_id %}"
+                     class="btn btn-lg btn-primary">
+                    <i class="fa fa-download"></i>&emsp;Sửa đổi
+                  </a>
+                  <a class=""></a>
+                  <!---<a href="% url 'action:treatment_overview' %}"--->
+                  <a href="javascript:history.back()"
+                     class="btn btn-lg btn-primary">
+                    <i class="mdi mdi-exit-to-app"></i>Trở lại
+                  </a>
+                </div>
+              </div>
+              <!-- Third column-->
+              <div class="col-lg-4 col-md-4">
+                <div class="table-responsive border-top border-success  table-striped">
+                  <p class="lead text-center mt-2">Danh muc hang</p>
+                  <table class="table">
+                    {% for out_pro in out_pros %}
+                      <tr>
+                        <th>{{ out_pro.timeO }}</th>
+                        <td>
+                          <a href="{% url 'inventory:out_all' %}">{{ out_pro.id }}</a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+                <div class="row">
+                  <div class="table">
+                  </div>
+                </div>
+                <div class="text-center mt-3">
+                  <a href=" {% url 'inventory:out_new' %}"
+                     class="btn btn-primary">
+                    <i class="fa fa-plus"></i>&emsp;Xuat Thêm
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+</div>

@@ -1,0 +1,215 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} Payment's Info | SkyLove CMS {% endblock title %}
+{% block content %}
+
+  <script type="text/javascript">
+      function view_image(str) {
+          let pic, picsrc;
+          pic = document.getElementById("image_view");
+          pic.src = str;
+          picsrc = document.getElementById("image_source_view");
+          picsrc.href = str;
+      }
+  </script>
+
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-lg-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="text-center text-primary">
+              <i class="fa fa-address-book-o"></i>
+              &emsp;PAYMENTS [Số: {{ invoice.id }}]
+            </h4>
+            <hr>
+            <div class="row">
+              <div class="col-lg-2 col-md-2 d-flex align-items-stretch grid-margin">
+                <div class="card border-top border-bottom border-success">
+                  <div class="card-body">
+                    {% if invoice.customer.thumb.url != null %}
+                      <img src="{{ invoice.customer.thumb.url }}" alt="" class="img-fluid" width='200px'
+                           height='200px'>
+                    {% else %}
+                      <img src="{% static 'images/No_Image.png' %}" alt="" class="img-fluid" width='200px'
+                           height='200px'>
+                    {% endif %}
+                    <p class="lead mt-2 text-center">
+                      {{ invoice.customer.humanID | capfirst }} <br>
+                      <small class='text-center text-secondary'>( Photo-ID )</small>
+                    </p>
+
+                  </div>
+                </div>
+
+
+              </div>
+              <!-- Second column -->
+              <div class="col-lg-6 col-md-6">
+                <div class="table-responsive border-top border-success table-striped">
+                  <p class="lead text-center mt-2">Thông tin chung</p>
+                  <table class="table">
+                    <tr>
+                      <th style="width:50%">Họ tên K/H:</th>
+                      <td>{{ invoice.customer.fullname }}</td>
+                    </tr>
+                    <tr>
+                      <th>Điện thoại:</th>
+                      <td>{{ invoice.customer.mobile }}</td>
+                    </tr>
+                    <tr>
+                      <th>Địa chỉ</th>
+                      <td>{{ invoice.customer.address }}</td>
+                    </tr>
+                    <tr>
+                      <th>Năm sinh:</th>
+                      <td>{{ invoice.customer.yob }}</td>
+                    </tr>
+                    <tr>
+                      <th>Nguồn K/H</th>
+                      <td>{{ invoice.customer.source.name }}</td>
+                    </tr>
+                    <tr>
+                      <th>Ngày mở sổ</th>
+                      <td>{{ invoice.time.date }}</td>
+                    </tr>
+                  </table>
+
+                </div>
+                <div class="text-center mt-3">
+                  <a href=" {% url 'manager:customer_update' pk=invoice.customer_id %}"
+                     class="btn btn-lg btn-primary">
+                    <i class="fa fa-download"></i>&emsp;Sửa đổi
+                  </a>
+                  <a class=""></a>
+                  <!---<a href="% url 'action:invoice_overview' %}"--->
+                  <a href="javascript:history.back()"
+                     class="btn btn-lg btn-primary">
+                    <i class="mdi mdi-exit-to-app"></i>Trở lại
+                  </a>
+                </div>
+              </div>
+              <!-- Third column-->
+              <div class="col-lg-4 col-md-4">
+                <div class="table-responsive border-top border-success  table-striped">
+                  <p class="lead text-center mt-2">Chi phí</p>
+                  <table class="table">
+
+                    {% if inv_fees.count < 1 %}
+                      <div class="text-center mt-3">
+                        <a href=" {% url 'action:invoice_fee_init' pk=invoice.pk %}"
+                           class="btn btn-primary">
+                          <i class="fa fa-calculator"></i>&emsp;Tính phí
+                        </a>
+                        <a href=" {% url 'action:invoice_fee_copy' pk=invoice.pk %}"
+                           class="btn btn-primary">
+                          <i class="fa fa-copy"></i>&emsp;Chi phí = Chi trả
+                        </a>
+                      </div>
+                    {% else %}
+                      {% for inv_fee in inv_fees %}
+                        <tr>
+                          <th>
+                            <a href="{% url 'action:invoice_fee_update' pk=inv_fee.id %}">
+                              {{ inv_fee.service }}
+                            </a>
+                          </th>
+                          <td>
+                            <p class="text-right">
+                              <a href="{% url 'action:invoice_fee_update' pk=inv_fee.id %}">
+                                {{ inv_fee.price }}
+                              </a>
+                            </p>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                      <tr>
+                        <p class="lead text-right">
+                          {{ inv_fee_total }}₫
+                        </p>
+                      </tr>
+                    {% endif %}
+                  </table>
+                </div>
+                <div class="text-left mt-3">
+                  <a href=" {% url 'action:invoice_fee_append' pk=invoice.pk %}"
+                     class="btn btn-primary">
+                    <i class="fa fa-plus"></i>&emsp;Chi phí
+                  </a>
+                </div>
+
+                <div class="table-responsive border-top border-success  table-striped">
+                  <p class="lead text-center mt-2">Chi trả</p>
+                  <table class="table">
+                    {% for inv_pro in inv_pros %}
+                      <tr>
+                        <th>
+                          <a href="{% url 'action:invoice_pro_update' pk=inv_pro.id %}">
+                            {{ inv_pro.time.date }} <i class="fa fa-long-arrow-right"></i> ({{ inv_pro.payby }})
+                          </a>
+                        </th>
+                        <td>
+                          <p class="text-right">
+                            <a href="{% url 'action:invoice_pro_update' pk=inv_pro.id %}">
+                              {{ inv_pro.paid }}
+                            </a>
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <i class="fa fa-long-arrow-right"></i> {{ inv_pro.description }}
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    <tr>
+                      <p class="lead text-right">
+                        {{ inv_pro_total }}₫
+                      </p>
+                    </tr>
+                  </table>
+                </div>
+                <div class="text-left mt-3">
+                  <a href="{% url 'action:invoice_append' pk=invoice.pk %}"
+                     class="btn btn-primary">
+                    <i class="fa fa-plus"></i>&emsp;Chi trả
+                  </a>
+                </div>
+                {% if inv_fees.count > 0 %}
+                  <div class="table-responsive border-top border-success  table-striped">
+                    <p class="lead text-center mt-2">Dư / Nợ</p>
+                    <span class="text-right">
+                      {% if inv_debt > 0 %}
+                        <p class="lead text-danger">
+                          Nợ: {{ inv_debt }}₫
+                        </p>
+                      {% endif %}
+                      {% if inv_debt_ > 0 %}
+                        <p class="lead text-success">
+                          Dư: {{ inv_debt_ }}₫
+                        </p>
+                      {% endif %}
+                    </span>
+                  </div>
+                {% endif %}
+                <div class="text-center mt-3">
+                  <br>
+                  <a href="{% url 'action:invoice_view_pdf' pk=invoice.pk %}"
+                     class="btn btn-primary">
+                    <i class="fa fa-print"></i>&emsp;Bill
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+</div>

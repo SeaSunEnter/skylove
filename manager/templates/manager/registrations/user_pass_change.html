@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>SkyLove CMS User</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'vendors/iconfonts/mdi/css/materialdesignicons.min.css' %} ">
+
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'images/favicon.png' %}"/>
+</head>
+
+<body>
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper full-page-wrapper auth-page">
+    <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
+      <div class="row w-100">
+        <div class="col-lg-4 mx-auto">
+          <div class="text-center mb-2">
+            <!---
+            <img src=" % static 'images/SkyLove_logo.png' %} " width="360" alt="">
+            --->
+            {% if user.thumb.url != null %}
+              <img src="{{ user.thumb.url }}" class='rounded img-fluid' alt="">
+            {% else %}
+              <img src="{% static 'images/No_Image.png' %}" class='rounded img-fluid' alt="">
+            {% endif %}
+
+          </div>
+          <h2 class="text-info text-center mb-4 text-secondary">User Change Password</h2>
+          <div class="auto-form-wrapper">
+            <form method='POST' enctype='multipart/form-data'>
+              {% csrf_token %}
+              {{ form.as_p }}
+              <div class="text-center mt-3">
+                <button class="btn btn-outline-success">
+                  <i class="mdi mdi-check"></i>
+                  Xác nhận
+                </button>
+                <a href="javascript:history.back()"
+                   class="btn btn-outline-danger">
+                  <i class="mdi mdi-cancel"></i>Hủy bỏ
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+
+{% block title %} Edit Treatment Process | SkyLove CMS {% endblock title %}
+
+{% block content %}
+
+  <script type="text/javascript">
+    function view_image(str) {
+      let pic, pic_src;
+      pic = document.getElementById("image_view");
+      pic.src = str;
+      pic_src = document.getElementById("image_source_view");
+      pic_src.href = str;
+    }
+
+    const img_lst = [];
+
+    function push_images(str) {
+      if (str != null) {
+        img_lst.push(str);
+      }
+    }
+
+    function delete_image(st) {
+      /*
+      if (confirm("Xác nhận xóa hình này?") != true) {
+        return;
+      }
+      */
+      img_lst.splice(img_lst.indexOf(st), 1);
+      let img = document.getElementById(st);
+      img.remove();
+      let btn = document.getElementById("x-" + st);
+      btn.remove();
+    }
+  </script>
+
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-xl-7 col-lg-7 col-md-7 col-sm-6 grid-margin stretch-card">
+        <div class="col-lg-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <div class="col-lg-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="text-center text-primary"><i class="fa fa-edit">&emsp;Cập nhật THẺ LIỆU TRÌNH</i></h4>
+                    <hr>
+                    <form enctype="multipart/form-data" class="form-group" method="POST">
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                      <div class="row">
+                        <div>
+                          <label id="id_photo">Ảnh hiện trạng:</label>
+                        </div>
+                        <div>
+                          {% for treat_pro_image in treat_pro_images %}
+                            {% if treat_pro_image.thumb.url != null %}
+                              <img onload="push_images('{{ treat_pro_image.thumb.url }}')"
+                                   id="{{ treat_pro_image.thumb.url }}"
+                                   src="{{ treat_pro_image.thumb.url }}"
+                                   onclick="view_image('{{ treat_pro_image.thumb.url }}')"
+                                   alt="" width="20" height="20">
+                              <a href="/treat_img_delete/{{ treat_pro.id }}/{{ treat_pro_image.id }}">
+                                <i id="x-{{ treat_pro_image.thumb.url }}"
+                                   class="mdi mdi-close-box"
+                                   onclick="delete_image('{{ treat_pro_image.thumb.url }}')">&emsp;&emsp;&emsp;</i>
+                              </a>
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <div class="text-center mt-3">
+                        <button class="btn btn-outline-success">
+                          <i class="mdi mdi-check"></i>
+                          Xác nhận
+                        </button>
+                        <!---<a href="% url 'action:treatment_view' pk=treatment.pk %}"--->
+                        <a href="javascript:history.back();"
+                           class="btn btn-outline-danger">
+                          <i class="mdi mdi-cancel"></i>Hủy bỏ
+                        </a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-columns">
+          <div class="card-body">
+            <div class="d-table-row">
+              {% if treat.customer.thumb.url != null %}
+                <a id="image_source_view" href="{{ treat.customer.thumb.url }}">
+                  <img id="image_view" src="{{ treat.customer.thumb.url }}" alt="" style="object-fit: contain">
+                </a>
+              {% else %}
+                <img id="image_view" src="{% static 'images/No_Image.png' %}" alt="" style="object-fit: contain">
+              {% endif %}
+            </div>
+            <div class="d-table-row">
+              <br class="lead mt-2 text-center">
+              {{ treat.customer.humanID | capfirst }}<br>
+              <small class='text-center text-secondary'>( Photo-ID )</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock content %}
+</div>

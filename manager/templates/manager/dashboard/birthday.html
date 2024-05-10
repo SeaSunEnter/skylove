@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <img src="/media/_Images/SkyLove-Logo-128x128.jpg">
+  <title>Happy Birthday!</title>
+</head>
+<body>
+<div class="align-content-center">
+  <h2>TRUNG TÂM PHẪU THUẬT THẨM MỸ SKY LOVE <br/></h2>
+  <p>766/6 Sư Vạn Hạnh, Phường 12, Quận 10, TP HCM </p>
+  <p>Hotline: 0909.239.069.</p>
+  <div class='wrapper'>
+    <div>
+      <br/>
+      <h1>CHÚC MỪNG SINH NHẬT</h1>
+    </div>
+    <div>
+      <div class='details'>
+        Hôm nay: {{ today }} <br/><br/>
+        {% for bd in birthdays %}
+          {{ bd.id }}.
+          {% if bd.table_name == 'Customer' %}
+            {% for customer in customers %}
+              {% if customer.id == bd.table_id %}
+                <a href="{% url 'manager:customer_view' bd.table_id %}">
+                  {{ customer.fullname }}
+                </a>
+                <br/>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            {% if bd.table_name == 'Employee' %}
+              {% for employee in employees %}
+                {% if employee.id == bd.table_id %}
+                  <a href="{% url 'manager:employee_view' bd.table_id %}">
+                    {{ employee.fullname }}
+                  </a>
+                  <br/>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        <hr class='hrItem'/>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

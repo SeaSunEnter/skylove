@@ -1,0 +1,160 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} Pay's Info | SkyLove CMS {% endblock title %}
+{% block content %}
+
+  <script type="text/javascript">
+    function view_image(str) {
+      let pic, picsrc;
+      pic = document.getElementById("image_view");
+      pic.src = str;
+      picsrc = document.getElementById("image_source_view");
+      picsrc.href = str;
+    }
+  </script>
+
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-lg-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="text-center text-primary">
+              <i class="fa fa-address-book-o"></i>
+              &emsp;THẺ LIỆU TRÌNH [Số: {{ treatment.id }}]
+            </h4>
+            <hr>
+            <div class="row">
+              <div class="col-lg-2 col-md-2 d-flex align-items-stretch grid-margin">
+                <div class="card border-top border-bottom border-success">
+                  <div class="card-body">
+                    {% if treatment.customer.thumb.url != null %}
+                      <img src="{{ treatment.customer.thumb.url }}" alt="" class="img-fluid" width='200px'
+                           height='200px'>
+                    {% else %}
+                      <img src="{% static 'images/No_Image.png' %}" alt="" class="img-fluid" width='200px'
+                           height='200px'>
+                    {% endif %}
+                    <p class="lead mt-2 text-center">
+                      {{ treatment.customer.humanID | capfirst }} <br>
+                      <small class='text-center text-secondary'>( Photo-ID )</small>
+                    </p>
+
+                  </div>
+                </div>
+
+
+              </div>
+              <!-- Second column -->
+              <div class="col-lg-6 col-md-6">
+                <div class="table-responsive border-top border-success table-striped">
+                  <p class="lead text-center mt-2">Thông tin KH</p>
+                  <table class="table">
+                    <tr>
+                      <th style="width:50%">Họ tên K/H:</th>
+                      <td>{{ treatment.customer.fullname }}</td>
+                    </tr>
+                    <tr>
+                      <th>Điện thoại:</th>
+                      <td>{{ treatment.customer.mobile }}</td>
+                    </tr>
+                    <tr>
+                      <th>Dịch vụ</th>
+                      <td>{{ treatment.service.name }}</td>
+                    </tr>
+                    <tr>
+                      <th>Ngày mua</th>
+                      <td>{{ treatment.dateapply }}</td>
+                    </tr>
+                    <tr>
+                      <th>Ngày hết hạn</th>
+                      <td>{{ treatment.dateend }}</td>
+                    </tr>
+                    <tr>
+                      <th>Tư vấn viên</th>
+                      <td>{{ treatment.consultant.fullname }}</td>
+                    </tr>
+                    <tr>
+                      <th>Chuyên viên</th>
+                      <td>{{ treatment.expert.fullname }}</td>
+                    </tr>
+                    <tr>
+                      <th>Bác sĩ</th>
+                      <td>{{ treatment.doctor.fullname }}</td>
+                    </tr>
+                    <tr>
+                      <th>Ghi chú</th>
+                      <td>{{ treatment.note }}</td>
+                    </tr>
+                  </table>
+
+                </div>
+                <div class="text-center mt-3">
+                  <a href=" {% url 'action:treatment_update' pk=treatment.pk %}"
+                     class="btn btn-lg btn-primary">
+                    <i class="fa fa-download"></i>&emsp;Cập nhật
+                  </a>
+                  <a class=""></a>
+                  <!---<a href="% url 'action:treatment_overview' %}"--->
+                  <a href="javascript:history.back()"
+                     class="btn btn-lg btn-primary">
+                    <i class="mdi mdi-exit-to-app"></i>Trở lại
+                  </a>
+                </div>
+              </div>
+              <!-- Third column-->
+              <div class="col-lg-4 col-md-4">
+                <div class="table-responsive border-top border-success  table-striped">
+                  <p class="lead text-center mt-2">Quá trình trị liệu</p>
+                  <table class="table">
+                    {% for treat_pro in treat_pros %}
+                      <tr>
+                        <th>{{ treat_pro.date }}</th>
+                        <td>
+                          <a href="{% url 'action:treatment_pro_update' pk=treat_pro.id %}">{{ treat_pro.status }}</a>
+                        </td>
+                        <td>
+                          {% for treat_pro_image in treat_pro_images %}
+                            {% if treat_pro_image.treat_pro == treat_pro.id %}
+                              {% if treat_pro_image.thumb.url != null %}
+                                <img src="{{ treat_pro_image.thumb.url }}"
+                                     alt="" class="img-fluid" width='20px' height='20px'
+                                     onclick="view_image('{{ treat_pro_image.thumb.url }}')"
+                                >
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+                <div class="row">
+                  <div class="table">
+                    {% if treat_pro_images %}
+                      <a id="image_source_view" href="{{ treat_pro_images.first.thumb.url }}">
+                        <img id="image_view" src="{{ treat_pro_images.first.thumb.url }}"
+                             alt="" class="img-fluid" width='250px' height='250px'>
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="text-center mt-3">
+                  <a href=" {% url 'action:treatment_append' pk=treatment.pk %}"
+                     class="btn btn-primary">
+                    <i class="fa fa-plus"></i>&emsp;Thêm liệu trình
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+</div>

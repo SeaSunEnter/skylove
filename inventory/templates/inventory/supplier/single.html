@@ -1,0 +1,89 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} Supplier's Info | SkyLove CMS {% endblock title %}
+{% block content %}
+
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-lg-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="text-center text-primary"><i class="fa fa-address-book-o">&emsp;CHI TIẾT NHÀ CUNG CẤP</i></h4>
+            <hr>
+            <div class="row">
+              <div class="col-lg-2 col-md-2 d-flex align-items-stretch grid-margin">
+
+                <div class="card border-top border-bottom border-success">
+                  <div class="card-body">
+                    {% if supplier.thumb.url != null %}
+                      <img src="{{ supplier.thumb.url }}" alt="" class="img-fluid" width='200px' height='200px'>
+                    {% else %}
+                      <img src="{% static 'images/No_Image.png' %}" alt="" class="img-fluid" width='200px'
+                           height='200px'>
+                    {% endif %}
+                    <p class="lead mt-2 text-center">
+                      {{ supplier.id | capfirst }} <br>
+                      <small class='text-center text-secondary'>( Photo-ID )</small>
+                    </p>
+
+                  </div>
+                </div>
+
+
+              </div>
+              <!-- Second column -->
+              <div class="col-lg-6 col-md-6">
+                <div class="table-responsive border-top border-success table-striped">
+                  <p class="lead text-center mt-2">Supplier Info.</p>
+                  <table class="table">
+                    <tr>
+                      <th style="width:50%">Nhà cung cấp:</th>
+                      <td>{{ supplier.name }}</td>
+                    </tr>
+                    <tr>
+                      <th>Số điện thoại:</th>
+                      <td>{{ supplier.mobile }}</td>
+                    </tr>
+                    <tr>
+                      <th>Địa chỉ:</th>
+                      <td>{{ supplier.address }}</td>
+                    </tr>
+                    <tr>
+                      <th>Email:</th>
+                      <td>{{ supplier.email }}</td>
+                    </tr>
+                    <tr>
+                      <th>Mã số thuế:</th>
+                      <td>{{ supplier.taxcode }}</td>
+                    </tr>
+                    <tr>
+                      <th>Số tài khoản NH:</th>
+                      <td>{{ supplier.nubank }}</td>
+                    </tr>
+                  </table>
+                  <div class="text-center mt-3">
+                    <a href=" {% url 'inventory:supplier_update' pk=supplier.id %}"
+                       class="btn btn-lg btn-primary">
+                      <i class="mdi mdi-download"></i>Cập nhật
+                    </a>
+                    <a class=""></a>
+                    <a href="javascript:history.back();"
+                       class="btn btn-lg btn-primary">
+                      <i class="mdi mdi-exit-to-app"></i>Trở lại
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-- Third column-->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+</div>

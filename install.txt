@@ -1,0 +1,2 @@
+python3 -m pip install -r requirements.txt
+export DYLD_LIBRARY_PATH="/usr/local/mysql/lib:$PATH"

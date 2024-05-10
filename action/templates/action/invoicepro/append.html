@@ -1,0 +1,116 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} Payment's Info | SkyLove CMS {% endblock title %}
+{% block content %}
+
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+        <div class="col-lg-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="text-center text-primary"><i class="fa fa-address-book-o">&emsp;CHI PHI
+                [Số: {{ invoice.id }}]</i>
+              </h4>
+              <hr>
+              <div class="row">
+                <div class="col-lg-2 col-md-2 d-flex align-items-stretch grid-margin">
+
+                  <div class="card border-top border-bottom border-success">
+                    <div class="card-body">
+                      {% if invoice.customer.thumb.url != null %}
+                        <img src="{{ invoice.customer.thumb.url }}" alt="" class="img-fluid" width='200px'
+                             height='200px'>
+                      {% else %}
+                        <img src="{% static 'images/No_Image.png' %}" alt="" class="img-fluid" width='200px'
+                             height='200px'>
+                      {% endif %}
+                      <p class="lead mt-2 text-center">
+                        {{ invoice.customer.humanID | capfirst }} <br>
+                        <small class='text-center text-secondary'>( Photo-ID )</small>
+                      </p>
+
+                    </div>
+                  </div>
+
+
+                </div>
+                <!-- Second column -->
+                <div class="col-lg-6 col-md-6">
+                  <div class="table-responsive border-top border-success table-striped">
+                    <p class="lead text-center mt-2">Thông tin chung</p>
+                    <table class="table">
+                      <tr>
+                        <th style="width:50%">Họ tên K/H:</th>
+                        <td>{{ invoice.customer.fullname }}</td>
+                      </tr>
+                      <tr>
+                        <th>Điện thoại:</th>
+                        <td>{{ invoice.customer.mobile }}</td>
+                      </tr>
+                      <tr>
+                        <th>Ngày mở sổ</th>
+                        <td>{{ invoice.time.date }}</td>
+                      </tr>
+                      <tr>
+                        <th>Ghi chú</th>
+                        <td>{{ invoice.discount }}</td>
+                      </tr>
+                    </table>
+
+                  </div>
+                </div>
+                <!-- Third column-->
+                <div class="col-lg-4 col-md-4">
+                  <div class="table-responsive border-top border-success  table-striped">
+                    <p class="lead text-center mt-2">Cập nhật chi trả</p>
+                    <table class="table">
+                      {% for inv_pro in inv_pros %}
+                        <tr>
+                          <th>{{ inv_pro.time.date }}</th>
+                          <td>{{ inv_pro.description }}</td>
+                          <td>{{ inv_pro.paid }}</td>
+                        </tr>
+                      {% endfor %}
+                    </table>
+                  </div>
+                  <!---
+                  % load bootstrap4 %}
+                  % bootstrap_css %}
+                  % bootstrap_javascript jquery='full' %}
+                  { form.media }} {# Adds widget's JS/CSS files from CDN #}
+                  --->
+                  <!---
+                  <form enctype="multipart/form-data" class="form-group" method="POST">
+                  --->
+                  <form action="{% url 'action:invoice_append' pk=invoice.pk %}" method="POST"
+                        enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row"></div>
+                    {{ form.as_p }}
+                    <div class="text-center mt-3">
+                      <div class="text-center mt-3">
+                        <button class="btn btn-outline-success" type="submit">
+                          <i class="mdi mdi-check"></i>
+                          Xác nhận
+                        </button>
+                        <!---<a href="% url 'action:invoice_view' pk=invoice.pk %}"--->
+                        <a href="javascript:history.back()"
+                           class="btn btn-outline-danger">
+                          <i class="mdi mdi-cancel"></i>Hủy bỏ
+                        </a>
+                      </div>
+
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+{% endblock content %}
+</div>

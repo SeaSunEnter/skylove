@@ -1,0 +1,55 @@
+{% extends 'manager/laycal.html' %}
+{% load static %}
+
+{% block title %}
+  Event
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="clearfix">
+      <a class="btn btn-primary left" href="{% url 'apptevent:event_overview' %}"> Danh sách </a>
+      <br><br>
+      <a class="btn btn-primary left" href="{% url 'apptevent:calendar' %}"> Bảng Lịch hẹn </a>
+    </div>
+
+    {% if form.errors %}
+      {% for field in form %}
+        {% for error in field.errors %}
+          <div class="alert alert-danger">
+            {{ field.label }} <strong>{{ error|escape }}</strong>
+          </div>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+          {{ field.label }} <strong>{{ error|escape }}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <h4 class="text-center text-primary">
+        <br>
+        CHI TIẾT LỊCH HẸN
+      </h4>
+      <table class="form form-table">
+          {{ form }}
+        <tr>
+          <td colspan="2">
+            <!---<button type="submit" class="btn btn-primary right"> Xác nhận</button>--->
+            <button type="submit" class="btn btn-outline-success">
+              <i class="mdi mdi-check"></i>
+              Xác nhận
+            </button>
+            <a href="javascript:history.back();"
+               class="btn btn-outline-danger right">
+              <i class="mdi mdi-cancel"></i>Hủy bỏ
+            </a>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+{% endblock %}

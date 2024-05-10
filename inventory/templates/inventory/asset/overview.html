@@ -1,0 +1,205 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} All Assets | SkyLove CMS {% endblock title %}
+<!--  MAIN BODY START HERE -->
+{% block content %}
+  <script type="text/javascript">
+    function data_lookup() {
+      let combobox, input, table, tr, td, filter, filterON, i, j, displaydata;
+      input = document.getElementById("category");
+      filter = input.value;
+      filterON = (filter === "0") || (filter == null);
+      table = document.getElementById("table_assets");
+
+      combobox = formId.category_list[formId.category_list.selectedIndex].text;
+
+      tr = table.getElementsByTagName("tr");
+
+      for (i = 0; i < tr.length; i++) {
+        tr[i].style.display = "";
+      }
+
+      j=0;
+
+      for (i = 0; i < tr.length; i++) {
+        if(filterON) {
+          continue;
+        }
+        td = tr[i].getElementsByTagName("td")[2];
+        if (td) {
+          displaydata = td.innerText;
+          if (displaydata.toUpperCase() !== combobox.toUpperCase()) {
+            tr[i].style.display = "none";
+          } else {
+            j = j + 1;
+            tr[i].style.display = "";
+          }
+        }
+      }
+      if(filterON) {
+        j={% if asset_total %}
+          {{ asset_total }}
+        {% else %}
+          0
+        {% endif %}
+      }
+      if(j < 1)
+        document.getElementById("asset_lookup").innerHTML = null;
+      else
+        document.getElementById("asset_lookup").innerHTML = ": " + j.toString();
+    }
+  </script>
+
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="row">
+        <div class="col-lg-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h4>Y dụng cụ [
+                {% if asset_total %} {{ asset_total }} {% endif %} ]
+              </h4>
+              {{ form.as_p }}
+              <form name="formId">
+                <label for="category">Phân loại:</label>
+                <select name="category_list" id="category" onchange="data_lookup();">
+                  <option value="0">Tất cả</option>
+                  <option value="" disabled>----------------</option>
+                  {% for category in categories %}
+                    <option value={{ category.id }}>{{ category.name }}</option>
+                  {% endfor %}
+                </select>
+                <label id="asset_lookup"></label>
+              </form>
+
+              <!---  Table contain customer list --->
+              <div class="table-responsive">
+                <table id="table_assets" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>
+                      Photo
+                    </th>
+                    <th>
+                      Y dụng cụ
+                    </th>
+                    <th>
+                      Phân loại
+                    </th>
+                    <th>
+                      Giá (Đ/v Nhập)
+                    </th>
+                    <th>
+                      Số lượng Đ/v Bán<br><br> trong Đ/v Nhập
+                    </th>
+                    <th>
+                      Giá (Đ/v Bán)
+                    </th>
+                    <th>
+                      Thao tác
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for asset in assets %}
+                    <tr>
+                      <td class="font-weight-medium">
+                        <a href="{% url 'inventory:asset_view' pk=asset.pk %}">
+                          {% if asset.thumb.url != null %}
+                            <img src="{{ asset.thumb.url }}" class='rounded img-fluid' alt="">
+                          {% else %}
+                            <img src="{% static 'images/No_Image.png' %}" class='rounded img-fluid' alt="">
+                          {% endif %}
+                        </a>
+                      </td>
+                      <td>
+                        {{ asset.name }}
+                      </td>
+                      <td>
+                        {{ asset.category.name }}
+                      </td>
+                      <td class="text-facebook">
+                        {{ asset.purchase }} / {{ asset.unitIN }}
+                      </td>
+                      <td class="text-lg-center">
+                        {{ asset.unitINOUT }}
+                      </td>
+                      <td class="text-danger">
+                        {{ asset.price }} / {{ asset.unitOUT }}
+                      </td>
+                      <td>
+                        <div class="btn-group dropdown">
+                          <button type="button" class="btn btn-success dropdown-toggle btn-sm"
+                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog "></i> Thao tác
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'inventory:asset_view' pk=asset.pk %}">
+                              <i class="fa fa-eye text-success fa-fw"></i>Chi tiết</a>
+                            <a class="dropdown-item" href="{% url 'inventory:asset_update' pk=asset.pk %}">
+                              <i class="fa fa-edit text-info fa-fw"></i>Cập nhật</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="">
+                              <i class="fa fa-trash text-danger fa-fw"></i>Xóa vật tư</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+
+                {% if is_paginated %}
+                  <nav aria-label="Page navigation example" class='mt-4'>
+                    <ul class="pagination">
+                      {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        </li>
+                      {% else %}
+
+                        <li class="page-item disabled"><span class='page-link '>Previous</span></li>
+                      {% endif %}
+                      <li class="disabled"><span
+                          class='page-link'> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
+                      </li>
+                      {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link"
+                                                 href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                      {% else %}
+                        <li class="page-item disabled"><span class='page-link '>Next</span></li>
+                      {% endif %}
+                    </ul>
+                  </nav>
+                {% endif %}
+
+              </div>
+              <h4 class="card-title">
+                <br>
+                <a href="javascript:history.back()"
+                   class="btn btn-lg btn-primary float-right">
+                  &emsp;Trở lại&emsp;<i class="mdi mdi-exit-to-app"></i>
+                </a>
+                <a href="" class="text-primary float-right">&emsp;&emsp;</a>
+                <a href="{% url 'inventory:asset_new' %}"
+                   class="btn btn-lg btn-primary float-right">
+                  <i class="fa fa-plus"></i><i class="fa fa-user-circle"></i>&emsp;Nhập Thêm Vật Tư
+                </a>
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block noty %}
+    <script>
+      {% if messages %}
+        {% for message in messages  %}
+          toastr.success('{{message}}')
+        {% endfor %}
+      {% endif %}
+    </script>
+  {% endblock noty %}
+{% endblock content %}
+</div>

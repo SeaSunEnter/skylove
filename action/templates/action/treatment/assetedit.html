@@ -1,0 +1,57 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+
+{% block title %} Edit Delivery | SkyLove CMS {% endblock title %}
+
+{% block content %}
+  <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-xl-7 col-lg-7 col-md-7 col-sm-6 grid-margin stretch-card">
+        <div class="col-lg-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <div class="col-lg-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="text-center text-primary"><i class="fa fa-edit">&emsp;Cập nhật VẬT TƯ đã xuất</i></h4>
+                    <hr>
+                    <!---
+                  % load bootstrap4 %}
+                  % bootstrap_css %}
+                  % bootstrap_javascript jquery='full' %}
+                  { form.media }} {# Adds widget's JS/CSS files from CDN #}
+                  --->
+                    <form enctype="multipart/form-data" class="form-group" method="POST">
+                      {% csrf_token %}
+                      <!---
+                        % bootstrap_form form %} {# Renders form fields using django-bootstrapX #}
+                        <small class="mb-5">Các mục có dấu [*] là bắt buộc</small><br><br>
+                        --->
+                      {{ form.as_p }}
+                      <div class="text-facebook text-lg-right">
+                        Người sửa: {{ user.fullname }}
+                      </div>
+                      <div class="text-center mt-3">
+                        <button class="btn btn-outline-success">
+                          <i class="mdi mdi-check"></i>
+                          Xác nhận
+                        </button>
+                        <!---<a href="% url 'action:treatment_view' pk=treatment.pk %}"--->
+                        <a href="javascript:history.back();"
+                           class="btn btn-outline-danger">
+                          <i class="mdi mdi-cancel"></i>Hủy bỏ
+                        </a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+</div>

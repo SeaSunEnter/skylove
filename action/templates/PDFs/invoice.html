@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <img src="/media/_Images/SkyLove-Logo-128x128.jpg">
+  <title>Bill</title>
+</head>
+<body>
+<div class="align-content-center">
+  <h2>TRUNG TÂM PHẪU THUẬT THẨM MỸ SKY LOVE <br/></h2>
+  <p>766/6 Sư Vạn Hạnh, Phường 12, Quận 10, TP HCM </p>
+  <p>Hotline: 0909.239.069.</p>
+  <div class='wrapper'>
+    <div class='align-content-center'>
+      <p class='title'>PHIẾU THANH TOÁN # {{ invoice.id }}</p>
+    </div>
+    <div>
+      <div class='details'>
+        Date:{{ today }} <br/><br/>
+        Khách hàng: {{ customer_name }} <br/>
+        Chi phí: {{ inv_fee_total }} <br/>
+        Thanh toán: {{ inv_pro_total }} <br/>
+        Còn nợ: {{ inv_debt }}
+        <hr class='hrItem'/>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
