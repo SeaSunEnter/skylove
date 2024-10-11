@@ -29,6 +29,16 @@ class Treatment(models.Model):
         db_table = 'Treatment'
 
 
+class TreatmentImagesTmp(models.Model):
+    image = models.ImageField(upload_to='Treatments')  # Adjust upload directory as needed
+
+    def __str__(self):
+        return self.image.name
+
+    class Meta:
+        db_table = 'TreatmentImagesTmp'
+
+
 class TreatmentProcessImages(models.Model):
     treat = models.IntegerField()
     treat_pro = models.IntegerField()

@@ -22,13 +22,44 @@ from action.forms import TreatmentForm, TreatmentFilterForm, TreatmentAppendForm
     ConsultingForm, TreatmentProcessForm, InvoiceForm, InvoiceAppendForm, InvoiceFilterForm, InvoiceProcessForm, \
     TreatmentAssetForm, InvoiceFeeForm, InvoiceAppendFeeForm, InvoiceFeeCopyForm
 from action.models import Treatment, TreatmentProcess, Consulting, TreatmentProcessImages, Invoice, InvoiceProcess, \
-    TreatmentAsset, InvoiceFee, DebtTmp, TreatmentAssetTmp
+    TreatmentAsset, InvoiceFee, DebtTmp, TreatmentAssetTmp, TreatmentImagesTmp
 from inventory.models import Inventory
 from manager.models import Customer, Service
+from django.views.decorators.csrf import csrf_protect
+
+
+@csrf_protect
+def upload_images(request, pk):
+    if request.method == 'POST':
+        images = request.FILES.getlist('images')
+        for image in images:
+            TreatmentImagesTmp.objects.create(image=image)
+        return redirect('action:treatment_pro_prev_img', pk)  # Redirect to preview page
+    return render(request, 'action/treatmentpro/upload_images.html', {})
+
+
+@csrf_protect
+def image_preview(request, pk):
+    images = TreatmentImagesTmp.objects.all()
+    if request.method == 'POST':
+        treat_pro = TreatmentProcess.objects.get(pk=pk)
+        treat = Treatment.objects.get(id=str(treat_pro.tag))
+        for image in images:
+            st = str(image.image.url)
+            st = st.replace("/media/", '')
+            TreatmentProcessImages.objects.create(
+                treat=treat_pro.tag,
+                treat_pro=treat_pro.id,
+                thumb=st
+            )
+
+        TreatmentImagesTmp.objects.all().delete()
+        return redirect('action:treatment_pro_update', pk)
+
+    return render(request, 'action/treatmentpro/preview_images.html', {'images': images})
 
 
 # Create your views here.
-
 def consulting_overview(request):
     mobile = request.GET.get('mobile')
     consultings = Consulting.objects.all()

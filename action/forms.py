@@ -161,16 +161,16 @@ class TreatmentProcessForm(forms.ModelForm):
             label='Tình trạng:',
             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Warranty'})
         )
-    tmp_thumb = \
-        forms.ImageField(
-            required=False,
-            label='Thêm ảnh:',
-            widget=forms.ClearableFileInput(attrs={'class': 'form-control'})
-        )
+    # tmp_thumb = \
+    #     forms.ImageField(
+    #         required=False,
+    #         label='Thêm ảnh:',
+    #         widget=forms.ClearableFileInput(attrs={'class': 'form-control'})
+    #     )
 
     class Meta:
         model = TreatmentProcess
-        fields = ('date', 'status', 'tmp_thumb')
+        fields = ('date', 'status')
 
 
 class TreatmentAssetForm(forms.ModelForm):

@@ -1,0 +1,34 @@
+{% extends 'manager/layout.html' %}
+{% load static %}
+{% block title %} Treatment Images | SkyLove CMS {% endblock title %}
+<!--  MAIN BODY START HERE -->
+{% block content %}
+    <div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="row">
+                <div class="col-lg-12 grid-margin">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="POST" enctype="multipart/form-data">
+                                {{ form.as_p }}
+                                {% csrf_token %}
+                                <h2 class="card-title text-primary">
+                                    Ảnh liệu trình
+                                </h2>
+
+                                <input type="file" name="images" multiple>
+                                <button type="submit">
+                                    Upload images
+                                </button>
+                            </form>
+                            <br>
+                            <!---  Table contain customer list --->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+</div>
