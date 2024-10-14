@@ -1,6 +1,6 @@
 {% extends 'manager/layout.html' %}
 {% load static %}
-{% block title %} Treatment Images | SkyLove CMS {% endblock title %}
+{% block title %} Treatment Images Preview | SkyLove CMS {% endblock title %}
 <!--  MAIN BODY START HERE -->
 {% block content %}
     <div class="main-panel">
@@ -18,9 +18,21 @@
                                     <button type="submit">
                                         Lưu vào hồ sơ
                                     </button>
+                                    <i>&emsp;&emsp;&emsp;</i>
+                                    <a href="{% url 'action:treatment_pro_del_tmp_img' pk=treat_pro %}">
+                                        <button type="button">
+                                            Hủy bỏ
+                                        </button>
+                                    </a>
                                 </h4>
                                 {% for image in images %}
-                                    <img src="{{ image.image.url }}" alt="{{ image.image.name }}">
+                                    <!---img src="{ image.image.url }}" alt="{ image.image.name }}"--->
+                                    <img
+                                         id="{{ image.image.url }}"
+                                         src="{{ image.image.url }}"
+                                         alt="" width="200">
+                                    <i>&emsp;&emsp;&emsp;</i>
+
                                 {% endfor %}
                             </form>
                             <br>

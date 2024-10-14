@@ -17,6 +17,7 @@ urlpatterns = [
   path('treatmentpro/<int:pk>/update/', views.TreatmentProcessUpdate.as_view(), name='treatment_pro_update'),
   path('treatmentpro/<int:pk>/addimg/', views.upload_images, name='treatment_pro_add_img'),
   path('treatmentpro/<int:pk>/preimg/', views.image_preview, name='treatment_pro_prev_img'),
+  path('treatmentpro/<int:pk>/deltmpimgs/', views.delete_tmp_images, name='treatment_pro_del_tmp_img'),
   path('treat_img_delete/<int:pk>/<int:img_tag>',
        views.treatment_process_update_delete,
        name='treatment_pro_update_delete'),

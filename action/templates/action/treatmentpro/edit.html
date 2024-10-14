@@ -7,11 +7,17 @@
 
     <script type="text/javascript">
         function view_image(str) {
+            // const viewportWidth = window.innerWidth;
+            // const viewportHeight = window.innerHeight;
+
             let pic, pic_src;
             pic = document.getElementById("image_view");
             pic.src = str;
             pic_src = document.getElementById("image_source_view");
             pic_src.href = str;
+
+            // pic_src.width = pic.width = viewportWidth;
+            // pic_src.height = pic.height = viewportHeight;
         }
 
         const img_lst = [];
@@ -68,23 +74,28 @@
                                                 <div>
                                                     <label id="id_photo">Ảnh hiện trạng: &emsp;</label>
                                                 </div>
-                                                <div>
-                                                    {% for treat_pro_image in treat_pro_images %}
-                                                        {% if treat_pro_image.thumb.url != null %}
-                                                            <img onload="push_images('{{ treat_pro_image.thumb.url }}')"
-                                                                 id="{{ treat_pro_image.thumb.url }}"
-                                                                 src="{{ treat_pro_image.thumb.url }}"
-                                                                 onclick="view_image('{{ treat_pro_image.thumb.url }}')"
-                                                                 alt="" width="20" height="20">
-                                                            <a href="/treat_img_delete/{{ treat_pro.id }}/{{ treat_pro_image.id }}">
-                                                                <i id="x-{{ treat_pro_image.thumb.url }}"
-                                                                   class="mdi mdi-close-box"
-                                                                   onclick="delete_image('{{ treat_pro_image.thumb.url }}')"></i>
-                                                            </a>
-                                                            <i>&emsp;&emsp;&emsp;</i>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </div>
+                                            </div>
+                                            <div>
+                                                {% if treat_pro_images.count > 0 %}
+                                                    <div class="row">
+                                                        {% for treat_pro_image in treat_pro_images %}
+                                                            {% if treat_pro_image.thumb.url != null %}
+                                                                <img style="width: 40px; height: 40px; object-fit: contain"
+                                                                     onload="push_images('{{ treat_pro_image.thumb.url }}')"
+                                                                     id="{{ treat_pro_image.thumb.url }}"
+                                                                     src="{{ treat_pro_image.thumb.url }}"
+                                                                     onclick="view_image('{{ treat_pro_image.thumb.url }}')"
+                                                                     alt="">
+                                                                <a href="/treat_img_delete/{{ treat_pro.id }}/{{ treat_pro_image.id }}">
+                                                                    <i id="x-{{ treat_pro_image.thumb.url }}"
+                                                                       class="mdi mdi-close-box"
+                                                                       onclick="delete_image('{{ treat_pro_image.thumb.url }}')"></i>
+                                                                </a>
+                                                                <i>&emsp;&emsp;&emsp;</i>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
                                             </div>
                                             <br>
                                             <div class="row">
@@ -105,17 +116,17 @@
                             {% if treat.customer.thumb.url != null %}
                                 <a id="image_source_view" href="{{ treat.customer.thumb.url }}">
                                     <img id="image_view" src="{{ treat.customer.thumb.url }}" alt=""
-                                         style="object-fit: contain">
+                                         style="width: 400px; height: 500px; object-fit: contain">
                                 </a>
+                                <div class="d-table-row">
+                                    <br class="lead mt-2 text-center">
+                                    {{ treat.customer.fullname | capfirst }}<br>
+                                    <small class='text-center text-secondary'></small>
+                                </div>
                             {% else %}
                                 <img id="image_view" src="{% static 'images/No_Image.png' %}" alt=""
                                      style="object-fit: contain">
                             {% endif %}
-                        </div>
-                        <div class="d-table-row">
-                            <br class="lead mt-2 text-center">
-                            {{ treat.customer.humanID | capfirst }}<br>
-                            <small class='text-center text-secondary'>( Photo-ID )</small>
                         </div>
                     </div>
                 </div>

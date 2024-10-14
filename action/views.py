@@ -10,7 +10,7 @@ from django.http import FileResponse, HttpResponse
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views import View
+# from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
 from reportlab.lib.pagesizes import A4
@@ -35,7 +35,11 @@ def upload_images(request, pk):
         for image in images:
             TreatmentImagesTmp.objects.create(image=image)
         return redirect('action:treatment_pro_prev_img', pk)  # Redirect to preview page
-    return render(request, 'action/treatmentpro/upload_images.html', {})
+
+    context = {
+        'treat_pro': pk
+    }
+    return render(request, 'action/treatmentpro/upload_images.html', context)
 
 
 @csrf_protect
@@ -43,7 +47,7 @@ def image_preview(request, pk):
     images = TreatmentImagesTmp.objects.all()
     if request.method == 'POST':
         treat_pro = TreatmentProcess.objects.get(pk=pk)
-        treat = Treatment.objects.get(id=str(treat_pro.tag))
+        # treat = Treatment.objects.get(id=str(treat_pro.tag))
         for image in images:
             st = str(image.image.url)
             st = st.replace("/media/", '')
@@ -54,9 +58,23 @@ def image_preview(request, pk):
             )
 
         TreatmentImagesTmp.objects.all().delete()
+
         return redirect('action:treatment_pro_update', pk)
 
-    return render(request, 'action/treatmentpro/preview_images.html', {'images': images})
+    context = {
+        'treat_pro': pk,
+        'images': images
+    }
+    return render(request, 'action/treatmentpro/preview_images.html', context)
+
+
+@csrf_protect
+def delete_tmp_images(request, pk):
+    if TreatmentImagesTmp.objects.all().count() == 0:
+        return redirect('action:treatment_pro_update', pk)
+    TreatmentImagesTmp.objects.all().delete()
+    return redirect('action:treatment_pro_add_img', pk)
+    # return render(request, 'action/treatmentpro/upload_images.html', {})
 
 
 # Create your views here.
@@ -115,12 +133,12 @@ class ConsultingUpdate(LoginRequiredMixin, UpdateView):
 
 def treatment_overview(request):
     mobile = request.GET.get('mobile')
-    fname = request.GET.get('fname')
+    f_name = request.GET.get('fname')
     treatments = Treatment.objects.all().filter(customer__deleted=False)
     if mobile:
         treatments = treatments.filter(customer__mobile__icontains=mobile)
-    if fname:
-        treatments = treatments.filter(customer__fullname__contains=fname)
+    if f_name:
+        treatments = treatments.filter(customer__fullname__contains=f_name)
 
     context = {
         'treat_total': Treatment.objects.all().filter(customer__deleted=False).count(),
@@ -307,15 +325,15 @@ class TreatmentProcessUpdate(LoginRequiredMixin, UpdateView):
         treat_pro = TreatmentProcess.objects.get(pk=self.kwargs['pk'])
         treat = Treatment.objects.get(id=str(treat_pro.tag))
 
-        if (treat_pro.tmp_thumb != "") and (treat_pro.tmp_thumb is not None):
-            TreatmentProcessImages.objects.create(
-                treat=treat_pro.tag,
-                treat_pro=treat_pro.id,
-                thumb=treat_pro.tmp_thumb
-            )
-            TreatmentProcess.objects.filter(tag=treat_pro.tag).update(
-                tmp_thumb=None
-            )
+        # if (treat_pro.tmp_thumb != "") and (treat_pro.tmp_thumb is not None):
+        #     TreatmentProcessImages.objects.create(
+        #         treat=treat_pro.tag,
+        #         treat_pro=treat_pro.id,
+        #         thumb=treat_pro.tmp_thumb
+        #     )
+        #     TreatmentProcess.objects.filter(tag=treat_pro.tag).update(
+        #         tmp_thumb=None
+        #     )
 
         return reverse('action:treatment_view', kwargs={'pk': treat.pk})
 
@@ -1012,7 +1030,7 @@ def invoice_exp_pdf(request):
     # Create the PDF object, using the buffer as its "file."
     # p = canvas.Canvas(buffer)
 
-    w, h = A4
+    # w, h = A4
     p = canvas.Canvas(buffer, pagesize=A4)
 
     p.setFont("Times-Roman", 14, leading=None)
@@ -1025,7 +1043,7 @@ def invoice_exp_pdf(request):
     p.drawString(200, 740, "PHIẾU THANH TOÁN")
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = get_context_data(**kwargs)
         try:
             query = InvoiceProcess.objects.filter(tag=self.object.pk)  # .order_by('time')
             context["inv_pros"] = query
