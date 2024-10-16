@@ -7,17 +7,11 @@
 
     <script type="text/javascript">
         function view_image(str) {
-            // const viewportWidth = window.innerWidth;
-            // const viewportHeight = window.innerHeight;
-
             let pic, pic_src;
             pic = document.getElementById("image_view");
             pic.src = str;
             pic_src = document.getElementById("image_source_view");
             pic_src.href = str;
-
-            // pic_src.width = pic.width = viewportWidth;
-            // pic_src.height = pic.height = viewportHeight;
         }
 
         const img_lst = [];
@@ -41,7 +35,13 @@
             btn.remove();
         }
     </script>
-
+    <style>
+        .fit-image {
+            width: 400px;
+            height: 500px;
+            object-fit: contain;
+        }
+    </style>
     <div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
@@ -114,9 +114,12 @@
                     <div class="card-body">
                         <div class="d-table-row">
                             {% if treat.customer.thumb.url != null %}
-                                <a id="image_source_view" href="{{ treat.customer.thumb.url }}">
-                                    <img id="image_view" src="{{ treat.customer.thumb.url }}" alt=""
-                                         style="width: 400px; height: 500px; object-fit: contain">
+                                <a class="fit-image"
+                                   href="{{ treat.customer.thumb.url }}">
+                                    <img
+                                        class="fit-image"
+                                        id="image_view"
+                                        src="{{ treat.customer.thumb.url }}" alt="">
                                 </a>
                                 <div class="d-table-row">
                                     <br class="lead mt-2 text-center">
@@ -125,7 +128,7 @@
                                 </div>
                             {% else %}
                                 <img id="image_view" src="{% static 'images/No_Image.png' %}" alt=""
-                                     style="object-fit: contain">
+                                     style="width: 400px; object-fit: contain">
                             {% endif %}
                         </div>
                     </div>

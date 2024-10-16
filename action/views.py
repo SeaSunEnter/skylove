@@ -1,6 +1,8 @@
 import csv
 import datetime
 import io
+import os
+import unicodedata
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -30,10 +32,20 @@ from django.views.decorators.csrf import csrf_protect
 
 @csrf_protect
 def upload_images(request, pk):
+    treat_pro = TreatmentProcess.objects.get(pk=pk)
+    treat = Treatment.objects.get(id=str(treat_pro.tag))
+    cust_name = str(treat.customer.pk)
+
     if request.method == 'POST':
         images = request.FILES.getlist('images')
-        for image in images:
+
+        # for image in images:
+        for index, image in enumerate(images):
+            file_name, file_extension = os.path.splitext(image.name)
+            new_filename = f"{cust_name}_{pk}_{index}{file_extension}"  # Replace with your desired naming convention
+            image.name = new_filename
             TreatmentImagesTmp.objects.create(image=image)
+
         return redirect('action:treatment_pro_prev_img', pk)  # Redirect to preview page
 
     context = {
@@ -49,7 +61,7 @@ def image_preview(request, pk):
         treat_pro = TreatmentProcess.objects.get(pk=pk)
         # treat = Treatment.objects.get(id=str(treat_pro.tag))
         for image in images:
-            st = str(image.image.url)
+            st = image.image.url
             st = st.replace("/media/", '')
             TreatmentProcessImages.objects.create(
                 treat=treat_pro.tag,
