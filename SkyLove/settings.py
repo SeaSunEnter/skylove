@@ -100,8 +100,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'skylove',
         'HOST': '127.0.0.1',
-        'USER': 'admin',
-        'PASSWORD': 'ABC@1357xyz',
+        'USER': 'root', # Admin
+        'PASSWORD': 'ssn>Msql68;', # ABC@1357xyz
         'PORT': '3306', }
 }
 
@@ -147,7 +147,7 @@ LANGUAGES = (
     ('vn', _lang('Vietnam')),
 )
 
-USE_THOUSAND_SEPARATOR = True
+USE_THOUSAND_SEPARATOR = False
 
 USD = moneyed.add_currency(
     code='USD',
